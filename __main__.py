@@ -37,6 +37,7 @@ def dismiss(_self, _cmd):
   self.view().delegate().release()
   self.view().setDelegate_(None)
   self.dismissViewControllerAnimated_completion_(True, None)
+  print('Close')
 
 
 MyGLViewController = create_objc_class(
@@ -46,7 +47,9 @@ MyGLViewController = create_objc_class(
 @on_main_thread
 def main():
   context = EAGLContext.alloc().initWithAPI_(2).autorelease()
-  glview = GLKView.alloc().initWithFrame_(((0, 0), (320, 320))).autorelease()
+  #glview = GLKView.alloc().initWithFrame_(((0, 0), (320, 320))).autorelease()
+  glview = GLKView.alloc().initWithFrame_(((0, 0), (100, 100))).autorelease()
+  glview.setAutoresizingMask_((1 << 1) | (1 << 4))
   delegate = MyGLViewDelegate.alloc().init()
   glview.setDelegate_(delegate)
   glview.setContext_(context)
