@@ -1,9 +1,10 @@
 import ctypes
-from objc_util import c, ObjCClass, create_objc_class, on_main_thread, UIApplication, ObjCInstance
 import time
 import colorsys
 
+from objc_util import c, ObjCClass, create_objc_class, on_main_thread, UIApplication, ObjCInstance
 import ui
+
 
 GLKView = ObjCClass('GLKView')
 GLKViewController = ObjCClass('GLKViewController')
@@ -22,10 +23,13 @@ glClear.argtypes = [ctypes.c_uint]
 GL_COLOR_BUFFER_BIT = 0x00004000
 
 
-def glkView_drawInRect_(_self, _cmd, view, rect):
+def glkView_drawInRect_(_self, _cmd, _view, rect):
   r, g, b = colorsys.hsv_to_rgb((time.time() * 0.1) % 1.0, 1, 1)
   glClearColor(r, g, b, 1.0)
   glClear(GL_COLOR_BUFFER_BIT)
+  view = ObjCInstance(_view)
+  print(f'view: {view.size().height}, {view.size().width}')
+  print(f'rect: {rect.size.height}, {rect.size.width}')
 
 
 MyGLViewDelegate = create_objc_class(
@@ -33,7 +37,7 @@ MyGLViewDelegate = create_objc_class(
   methods=[glkView_drawInRect_],
   protocols=['GLKViewDelegate'])
 
-
+'''
 def dismiss(_self, _cmd):
   self = ObjCInstance(_self)
   self.view().delegate().release()
@@ -44,7 +48,7 @@ def dismiss(_self, _cmd):
 
 MyGLViewController = create_objc_class(
   'MyGLViewController', GLKViewController, methods=[dismiss])
-
+'''
 v = ui.View()#frame=(0,0,600,600))
 
 @on_main_thread
@@ -57,7 +61,7 @@ def main():
   glview.setDelegate_(delegate)
   glview.setContext_(context)
   glview.setEnableSetNeedsDisplay_(False)
-  glvc = MyGLViewController.alloc().initWithNibName_bundle_(None, None).autorelease()
+  glvc = GLKViewController.alloc().initWithNibName_bundle_(None, None).autorelease()
   glvc.setTitle_('GLKit Demo')
   glvc.setView_(glview)
   
