@@ -49,17 +49,17 @@ def main():
   context = EAGLContext.alloc().initWithAPI_(2).autorelease()
   #glview = GLKView.alloc().initWithFrame_(((0, 0), (320, 320))).autorelease()
   glview = GLKView.alloc().initWithFrame_(((0, 0), (100, 100))).autorelease()
-  glview.setAutoresizingMask_((1 << 1) | (1 << 4))
+  #glview.setAutoresizingMask_((1 << 1) | (1 << 4))
   delegate = MyGLViewDelegate.alloc().init()
   glview.setDelegate_(delegate)
   glview.setContext_(context)
   glview.setEnableSetNeedsDisplay_(False)
-  glvc = MyGLViewController.alloc().initWithNibName_bundle_(
-    None, None).autorelease()
+  glvc = MyGLViewController.alloc(
+    ).initWithNibName_bundle_(None, None).autorelease()
   glvc.setTitle_('GLKit Demo')
   glvc.setView_(glview)
-  done_b = UIBarButtonItem.alloc().initWithTitle_style_target_action_(
-    'Done', 2, glvc, 'dismiss').autorelease()
+  done_b = UIBarButtonItem.alloc(
+    ).initWithTitle_style_target_action_('Done', 2, glvc, 'dismiss').autorelease()
   glvc.navigationItem().setRightBarButtonItem_(done_b)
   nav = UINavigationController.alloc().initWithRootViewController_(glvc)
   rootvc = UIApplication.sharedApplication().keyWindow().rootViewController()
